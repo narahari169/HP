@@ -1,0 +1,54 @@
+<error-message label="{{vm.item.summary.name | localize:vm.item.summary.nameLocalized}}">
+  <div class="row" ng-form="vm.itemForm" child-form>
+    <div class="small-12 column">
+      <div class="row">
+        <div class="small-2 medium-3 large-2 column">
+          <box-image src="(vm.item.summary.icon && vm.item.summary.icon.guid) | blobImage | defaultImage"></box-image>
+        </div>
+        <div class="small-6 medium-4 large-5 column">
+          <h5><strong>{{::vm.item.summary.name | localize:vm.item.summary.nameLocalized}}</strong></h5>
+          <h5><small>{{::vm.item.catalog.name | localize:vm.item.catalog.nameLocalized}}</small></h5>
+          <h6 ng-if="vm.item.createdOn"><small>{{'cartui.common.addedOn' | translate: {date: (vm.item.createdOn | date:'medium')} }}</small></h6>
+        </div>
+        <div class="small-4 medium-3 large-3 column end">
+          <h5>
+            <pricing ng-if="vm.item.summary.showPrice" price="vm.item.calculatedPrice"></pricing>
+          </h5>
+        </div>
+        <div class="medium-2 large-2 column show-for-medium-up test-price" ng-if="vm.isOrderable" ng-form="vm.quantityForm">
+          <input type="number" name="quantity" min="1" ng-model="vm.item.quantity" required integer ng-disabled="vm.isQuantityUnsupported" class="mb0">
+          <div ng-messages="vm.quantityForm.$error">
+            <span ng-message="required" class="error">{{ 'validation.requiredField' | translate }}</span>
+            <span ng-message="min" class="error">{{ 'validation.minField' | translate:{min:1} }}</span>
+            <span ng-message="integer" class="error">{{ 'validation.integerField' | translate }}</span>
+          </div>
+          <button class="button small expand success mt-" ng-if="vm.itemForm.$dirty && vm.itemForm.$valid" ng-click="vm.update()">{{'shopui.common.update' | translate}}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="small-12 column" ng-messages="vm.itemForm.$error">
+      <span ng-message="retired" class="error">{{ 'cartui.validation.retired' | translate }}</span>
+      <span ng-message="denied" class="error">{{ 'cartui.validation.denied' | translate }}<a class="right" ng-click="vm.ignoreApproval()">{{ 'cartui.common.ignore' | translate }}</a></span>
+      <span ng-message="configuration" class="error">{{ 'cartui.validation.configuration' | translate }}</span>
+    </div>
+    <div class="small-12 column text-right">
+      <div class="small-5 column show-for-small-only pl0" ng-if="vm.isOrderable" ng-form="vm.quantityForm">
+        <input type="number" name="quantity" min="1" ng-model="vm.item.quantity" required integer ng-disabled="vm.isQuantityUnsupported" class="mb0">
+        <div ng-messages="vm.quantityForm.$error">
+          <span ng-message="required" class="error">{{ 'validation.requiredField' | translate }}</span>
+          <span ng-message="min" class="error">{{ 'validation.minField' | translate:{min:1} }}</span>
+          <span ng-message="integer" class="error">{{ 'validation.integerField' | translate }}</span>
+        </div>
+        <button class="button small expand success mt-" ng-if="vm.quantityForm.$dirty && vm.quantityForm.$valid" ng-click="vm.update()">{{'shopui.common.update' | translate}}</button>
+      </div>
+      <div class="small-7 column">
+    <a ng-if="vm.isConfigurable && vm.onEdit" href="" ng-click="vm.edit(vm.item)" class="mr">{{'shopui.common.edit' | translate}}</a>
+    <a href="" ng-click="vm.remove()">{{'shopui.common.remove' | translate}}</a>
+      </div>
+      </div>
+
+
+
+  </div>
+</error-message>
